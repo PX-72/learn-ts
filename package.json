@@ -1,0 +1,14 @@
+{
+  "name": "ts-practice",
+  "version": "1.0.0",
+  "description": "Learning typescript",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}
