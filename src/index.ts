@@ -147,13 +147,46 @@ type TodoMaybe = Partial<Todo>;
 
 // 2. Required<T>
 // All properties are required
-  
+
 type TodoMust = Required<TodoMaybe>;
 
 // 3. Readonly<T>
 // All properties are read-only
 
-type TodoReadonly = Readonly<Todo>
+type TodoReadonly = Readonly<Todo>;
+
+// 4. Record<Keys, Types>
+// Maps the properties of a type to another type.
+
+type TodoRecord = Record<string, Todo>;
+const r: TodoRecord = { ['1']: { title: 't', description: 'd' } };
+
+// but could also be defined using the index signature feature:
+type TodoRecordWithIndex = { [key: string]: Todo };
+
+// using it with union types:
+type Restrictions = 'admin' | 'owner';
+type RestrictedTodo = Record<Restrictions, Todo>;
+
+// Better example:
+// VERBOSE:
+
+type PageInfo = {
+  id: string;
+  title: string;
+};
+type PagesVerbose = {
+  home: PageInfo;
+  services: PageInfo;
+  about: PageInfo;
+  contact: PageInfo;
+};
+
+// INSTEAD OF THE ABOVE, JUST USE:
+type Pages = Record<'home' | 'services' | 'about' | 'contact', { id: string; title: string }>;
+
+// Record<T> is a Mapped type wrapper under the hood:
+// type Record<K extends keyof any, T> = { [P in K]: T };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export {};
