@@ -141,6 +141,7 @@ type OType = typeof someData; // { name: string; age: number; }
 interface Todo {
   title: string;
   description: string;
+  completed: boolean;
 }
 
 type TodoMaybe = Partial<Todo>;
@@ -152,14 +153,18 @@ type TodoMust = Required<TodoMaybe>;
 
 // 3. Readonly<T>
 // All properties are read-only
-
 type TodoReadonly = Readonly<Todo>;
+
+// make it mutable using maped type:
+type User = { readonly name: string; }
+type Mutable<T> = { -readonly [K in keyof T]: T[K] };
+type MutableUser = Mutable<User>;
+
 
 // 4. Record<Keys, Types>
 // Maps the properties of a type to another type.
-
 type TodoRecord = Record<string, Todo>;
-const r: TodoRecord = { ['1']: { title: 't', description: 'd' } };
+const r: TodoRecord = { ['1']: { title: 't', description: 'd', completed: false } };
 
 // but could also be defined using the index signature feature:
 type TodoRecordWithIndex = { [key: string]: Todo };
@@ -187,6 +192,20 @@ type Pages = Record<'home' | 'services' | 'about' | 'contact', { id: string; tit
 
 // Record<T> is a Mapped type wrapper under the hood:
 // type Record<K extends keyof any, T> = { [P in K]: T };
+
+// 5. Pick<Type, Keys>
+// Constructs a type by picking the set of properties Keys from Type.
+type TodoPreview = Pick<Todo, 'title' | 'completed'>;
+
+// 6. Omit<Type, Keys>
+// Constructs a type by picking all properties from Type and then removing Keys.
+type TodoPreview2 = Omit<Todo, 'title' | 'completed'>;
+
+// 7. Exclude<UnionType, ExcludedMembers>
+// Constructs a type by excluding from UnionType all union members that are assignable to ExcludedMembers.
+type Excl = Exclude<'hello' | 'world', 'world' | '2'>;
+// type ExcludeImplementation<T, U> = T extends U ? never : T
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export {};
