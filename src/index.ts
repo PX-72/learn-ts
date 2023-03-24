@@ -111,7 +111,7 @@ str = 23; // error! (number is not assignable to string)
 
 // use cases:
 
-// 1. ReturType
+// 1. ReturnType
 const getPerson = (name: string, age: number) => ({ name, age });
 type Person = ReturnType<typeof getPerson>;
 
@@ -201,11 +201,24 @@ type TodoPreview = Pick<Todo, 'title' | 'completed'>;
 // Constructs a type by picking all properties from Type and then removing Keys.
 type TodoPreview2 = Omit<Todo, 'title' | 'completed'>;
 
-// 7. Exclude<UnionType, ExcludedMembers>
+// 7. NonNullable<T>
+// Constructs a type by excluding null and undefined from type of T.
+type NonNull = NonNullable<string[] | null | undefined>;
+// type is only string[]
+
+// UNION TYPE RELATED UTILITY TYPES (8,9)
+
+// 8. Exclude<UnionType, ExcludedMembers>
 // Constructs a type by excluding from UnionType all union members that are assignable to ExcludedMembers.
 type Excl = Exclude<'hello' | 'world', 'world' | '2'>;
 // type ExcludeImplementation<T, U> = T extends U ? never : T
 
+// 9. Extract<T, Union>
+// Constructs a type by extracting from type T all union members that are assignable to type Union.
+type Ta = Extract<"a" | "b" | "c", "a" | "f">;
+// Ta contains type 'a'
+
+// FUNCTION RELATED TYPES
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export {};
